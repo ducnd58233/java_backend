@@ -1,23 +1,47 @@
+import java.util.Scanner;
+
 public class Exercise3 {
   public static void main(String[] args) {
-    int[] arr = {49, 1, 2, 200, 2, 3, 4, 5, 8, 9, 10};
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Nhap do dai mang: ");
+    int n = sc.nextInt();
+    int[] arr = new int[n];
+
+    System.out.println("Nhap gia tri cho mang: ");
+    for (int i = 0; i < arr.length; i++) {
+      arr[i] = sc.nextInt();
+    }
+
     int result = longestConsecutive(arr);
 
     System.out.printf("Result: %d\n", result);
   }
 
   static int longestConsecutive(int[] arr) {
-    int result = 0;
-    int currentLength = 0;
+    int start, end, cur_s, cur_e;
+    start = end = cur_s = cur_e = 0;
+
     for (int i = 0; i < arr.length - 1; i++) {
-      if (arr[i + 1] - 1 == arr[i]) {
-        currentLength += 1;
-      } else {
-        result = Math.max(result, currentLength);
-        currentLength = 1;
+      cur_s = i;
+
+      for (int j = i + 1; j < arr.length; j++) {
+        if (arr[j] - 1 == arr[j - 1]) {
+          cur_e = j;
+        } else {
+          break;
+        }
+      }
+      if (cur_e - cur_s > end - start) {
+        start = cur_s;
+        end = cur_e;
       }
     }
-    result = Math.max(result, currentLength);
-    return result;
+
+    for (int i = start; i <= end; i++) {
+      System.out.printf("%d ", arr[i]);
+    }
+
+    int longest = end - start + 1;
+    return longest;
   }
 }
